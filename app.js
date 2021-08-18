@@ -13,6 +13,7 @@ $('document').ready(async () => {
         width = Math.max(Math.min($('body').width(), 600), 300),
         servants = [],
         selectedServants = [],
+        unselectable = [127, 206, 253],
         getServant = (collectionNo) => {
             return servants
                 .filter(servant => collectionNo == servant.collectionNo)
@@ -34,7 +35,8 @@ $('document').ready(async () => {
                         servants.push(...data);
 
                         $('#servant').append(
-                            data.map(servant => (
+                            data.filter(servant => !unselectable.includes(servant.collectionNo))
+                                .map(servant => (
                                 $('<option>')
                                     .prop('value', servant.collectionNo)
                                     .text(`${servant.collectionNo}: ${servant.name} (${servant.className})`)
@@ -104,13 +106,6 @@ $('document').ready(async () => {
                 setSquare(i, collectionNo);
             });
     }
-
-    $('#size').change(function () {
-        const size = $(this).val();
-
-        window.location = window.location.href.split('#')[0] + '#' + size;
-        window.location.reload();
-    });
 
     $('#servant').change(function () {
         const position = $('#position').val(),
