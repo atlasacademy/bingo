@@ -1,0 +1,24 @@
+#bingo {
+    margin: 20px auto;
+    outline: 1px solid black;
+}
+
+.row {
+    align-items: flex-start;
+    display: flex;
+}
+
+.square {
+    flex-grow: 1;
+    outline: 1px solid black;
+    position: relative;
+}
+
+.square>img {
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
