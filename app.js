@@ -9,7 +9,7 @@ $('document').ready(async () => {
 
     const hash = window.location.hash,
         size = (hash.match(/^#([0-9]+)/) ?? [])[1],
-        init = (hash.match(/\|[0-9,]*$/) ?? [])[0] ?? '',
+        init = (hash.match(/&[0-9,]*$/) ?? [])[0] ?? '',
         width = Math.max(Math.min($('body').width(), 600), 300),
         servants = [],
         selectedServants = [],
@@ -37,7 +37,7 @@ $('document').ready(async () => {
                             data.map(servant => (
                                 $('<option>')
                                     .prop('value', servant.collectionNo)
-                                    .text(`${servant.name} (${servant.className})`)
+                                    .text(`${servant.collectionNo}: ${servant.name} (${servant.className})`)
                             ))
                         );
 
@@ -63,6 +63,7 @@ $('document').ready(async () => {
                     row.append(
                         $('<div>')
                             .addClass('square')
+                            .attr('pos', y * size + x)
                             .css('padding-top', `calc(100% / ${size})`)
                     );
                 }
@@ -85,7 +86,7 @@ $('document').ready(async () => {
             window.location =
                 window.location.href.split('#')[0]
                 + '#' + size
-                + '|' + selectedServants.join(',');
+                + '&' + selectedServants.join(',');
         };
 
     if (size) {
@@ -123,4 +124,9 @@ $('document').ready(async () => {
         $('#servant').val('');
     });
 
+    $('.square').click(function () {
+        const pos = $(this).attr('pos');
+
+        $('#position').val(pos);
+    });
 });
